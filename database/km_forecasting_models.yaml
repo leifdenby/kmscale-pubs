@@ -37,6 +37,22 @@ papers:
       - "GNN"
       - "rollout training"
 
+  - id: oskarsson2023_graph_lam
+    domain:
+      scope: "regional / limited-area"
+      nominal_resolution_km: null
+      region: "Nordic region (MEPS LAM)"
+    architecture:
+      family: "Graph Neural Network (GNN)"
+      notes: "Graph-based NeurWP adapted to limited-area modeling with a multi-scale hierarchy"
+    outputs:
+      probabilistic: false
+      ensembles: false
+    tags:
+      - "limited-area"
+      - "GNN"
+      - "regional"
+
   - id: nordhagen2025_stretchedgrid
     domain:
       scope: "stretched grid (global with region of interest)"
@@ -54,3 +70,20 @@ papers:
       - "probabilistic"
       - "stretched-grid"
       - "CRPS"
+
+  - id: wijnands2025_lam_sgm_comparison
+    domain:
+      scope: "regional / limited-area + stretched grid comparison"
+      nominal_resolution_km: null
+      region: "Europe"
+    architecture:
+      family: "Graph Neural Network (Anemoi framework)"
+      notes: "Shared architecture adapted for limited-area vs stretched-grid setups"
+    outputs:
+      probabilistic: false
+      ensembles: false
+    tags:
+      - "limited-area"
+      - "stretched-grid"
+      - "regional"
+      - "comparison"

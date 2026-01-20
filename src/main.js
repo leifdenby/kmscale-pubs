@@ -66,16 +66,6 @@ function formatAuthors(bibTags) {
   return `${list.slice(0, 3).join(", ")} et al.`;
 }
 
-function formatVenue(bibTags, paper) {
-  if (bibTags.journal) return bibTags.journal;
-  if (bibTags.booktitle) return bibTags.booktitle;
-  if (bibTags.archiveprefix && bibTags.archiveprefix.toLowerCase() === "arxiv") {
-    return "arXiv";
-  }
-  if (bibTags.publisher) return bibTags.publisher;
-  return paper?.venue || "";
-}
-
 function formatResolution(domain) {
   if (!domain || typeof domain !== "object") return "";
   if (typeof domain.nominal_resolution_km === "number") {
@@ -157,7 +147,6 @@ function buildTable(papers, bibMap) {
       <tr>
         <th>Title</th>
         <th>Year</th>
-        <th>Venue</th>
         <th>Resolution</th>
         <th>Architecture</th>
         <th>Authors</th>
@@ -177,7 +166,6 @@ function buildTable(papers, bibMap) {
     row.innerHTML = `
       <td>${title}</td>
       <td>${bibTags.year || paper.year || ""}</td>
-      <td>${formatVenue(bibTags, paper)}</td>
       <td>${formatResolution(paper.domain)}</td>
       <td>${formatArchitecture(paper.architecture)}</td>
       <td>${formatAuthors(bibTags)}</td>
