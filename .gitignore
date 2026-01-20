@@ -13,3 +13,4 @@ pnpm-debug.log*
 coverage/
 playwright-report/
 .codex-session
+pdfs/

@@ -73,3 +73,17 @@ npm run lint
 - Add or edit publications in `database/*.yaml`, ensuring each entry has an `id`.
 - Add the matching BibTeX entry with the same key in `database/references.bib`.
 - The dev server will hot-reload tables as you save changes.
+
+## PDF downloader
+
+`scripts/download_pdfs.py` downloads PDFs referenced by `database/references.bib` into `./pdfs` using the BibTeX key as the filename.
+
+```bash
+python3 scripts/download_pdfs.py
+```
+
+Optional flags:
+
+```bash
+python3 scripts/download_pdfs.py --force --delay 0.5
+```
