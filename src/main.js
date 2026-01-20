@@ -173,7 +173,7 @@ function buildTable(papers, bibMap) {
       <td>${paper.outputs?.probabilistic ? "✓" : "✕"}</td>
       <td>${paper.outputs?.ensembles ? "✓" : "✕"}</td>
       <td>${formatAuthors(bibTags)}</td>
-      <td class="links">${formatLinks(bibTags, paper)}</td>
+      <td><div class="links">${formatLinks(bibTags, paper)}</div></td>
       <td>${formatTags(paper.tags)}</td>
     `;
     tbody.appendChild(row);

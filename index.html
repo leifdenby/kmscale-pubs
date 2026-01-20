@@ -17,13 +17,22 @@
     <div class="bg-grid"></div>
 
     <header class="hero">
+      <div class="topbar">
+        <a class="topbar__link" href="https://github.com/leifdenby/kmscale-pubs" target="_blank" rel="noopener">
+          GitHub repo
+        </a>
+      </div>
       <div class="hero__content">
         <p class="hero__eyebrow">Kilometer-Scale ML Weather Forecasting</p>
         <h1>Research map for kilometer-scale forecasting, downscaling, and global priors</h1>
         <p class="hero__lede">
-          This dashboard reads the local YAML catalogs and BibTeX bibliography, then joins
-          them on the shared publication id. Edit the YAML or `references.bib` and the tables
-          update instantly during development.
+          This page is meant to serve as a living repository of research efforts applying machine learning to
+          kilometer-scale weather forecasting. It is organized into three sections:</p>
+          <ol>
+            <li><strong><a href="#km-forecasting">KM Forecasting Models</a></strong>: True kilometer-scale forecasting systems or regional LAMs.</li>
+            <li><strong><a href="#km-downscaling">KM Downscaling & Generative Models</a></strong>: Diffusion, super-resolution, and benchmark efforts delivering km outputs.</li>
+            <li><strong><a href="#global-priors">Global Drivers & Priors</a></strong>: Global models frequently used as boundary conditions or baselines for km-scale models.</li>
+          </ol>
         </p>
         <div class="hero__meta">
           <span id="last-updated">Last updated: --</span>
@@ -64,6 +73,8 @@
         `database/km_downscaling_and_generative.yaml`, `database/global_drivers_priors.yaml`,
         and `database/references.bib`.
       </p>
+      <p>Leif Denby · <a href="mailto:lcd@dmi.dk">lcd@dmi.dk</a></p>
+      <p>This page was created as part of my efforts as UWC ML Liaison Officer to support the wider evolution of data-driven forecasting capabilities. Please reach out (by the <a href="https://github.com/leifdenby/kmscale-pubs">github repo</a>) or <a href="mailto:lcd@dmi.dk">by email</a> of you spot any mistakes, have any suggestions, or would like to contribute!</p>
     </footer>
 
     <script type="module" src="/src/main.js"></script>

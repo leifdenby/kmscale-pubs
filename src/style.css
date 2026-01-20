@@ -71,6 +71,28 @@ a:hover {
   padding: 4.5rem 7vw 3rem;
 }
 
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+.topbar__link {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  border-bottom: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.topbar__link:hover {
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.12);
+}
+
 .hero__content {
   max-width: 980px;
 }
@@ -199,6 +221,17 @@ main {
   flex-direction: column;
   gap: 0.2rem;
   font-size: 0.85rem;
+}
+
+.links a {
+  border-bottom: none;
+  width: fit-content;
+}
+
+.links a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
 }
 
 .footer {
