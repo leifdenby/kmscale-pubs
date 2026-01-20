@@ -149,6 +149,8 @@ function buildTable(papers, bibMap) {
         <th>Year</th>
         <th>Resolution</th>
         <th>Architecture</th>
+        <th class="rotate"><span><abbr title="Probabilistic">Prob.</abbr></span></th>
+        <th class="rotate"><span><abbr title="Ensembles">Ens.</abbr></span></th>
         <th>Authors</th>
         <th>Links</th>
         <th>Tags</th>
@@ -168,6 +170,8 @@ function buildTable(papers, bibMap) {
       <td>${bibTags.year || paper.year || ""}</td>
       <td>${formatResolution(paper.domain)}</td>
       <td>${formatArchitecture(paper.architecture)}</td>
+      <td>${paper.outputs?.probabilistic ? "✓" : "✕"}</td>
+      <td>${paper.outputs?.ensembles ? "✓" : "✕"}</td>
       <td>${formatAuthors(bibTags)}</td>
       <td class="links">${formatLinks(bibTags, paper)}</td>
       <td>${formatTags(paper.tags)}</td>
