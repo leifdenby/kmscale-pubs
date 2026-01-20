@@ -1,0 +1,78 @@
+# km_forecasting_models.yaml
+# True km-scale forecasting models (native output at ~1–3 km, or km ROI via stretched grid)
+
+papers:
+  - id: xu2025_lam_ai
+    title: "An artificial intelligence-based limited area model for high-resolution forecasts"
+    year: 2025
+    venue: "Communications Earth & Environment"
+    type: journal
+    links:
+      landing: "https://www.nature.com/articles/s43247-025-02347-5"
+    domain:
+      scope: "regional / limited-area"
+      nominal_resolution_km: 3
+      timestep: "1-hourly"
+    architecture:
+      family: "CNN encoder-decoder"
+      notes: "Parallel global–local structure; limited-area AI model with boundary forcing (per paper description)"
+    outputs:
+      probabilistic: false
+      ensembles: false
+    tags:
+      - "limited-area"
+      - "km-scale"
+      - "boundary forcing"
+
+  - id: adamov2025_ml_lam
+    title: "Building Machine Learning Limited Area Models: Kilometer-Scale Weather Forecasting in Realistic Settings"
+    year: 2025
+    venue: "arXiv"
+    type: preprint
+    links:
+      landing: "https://arxiv.org/abs/2504.09340"
+      pdf: "https://arxiv.org/pdf/2504.09340.pdf"
+      proceedings_page: "https://openreview.net/revisions?id=ZLC1Ov0Ipv"
+    domain:
+      scope: "regional / limited-area"
+      nominal_resolution_km: null
+      timestep: "multi-step rollout"
+      regions_mentioned:
+        - "Denmark"
+        - "Switzerland"
+    architecture:
+      family: "Graph Neural Network (GNN)"
+      notes: "Specialized graph constructions (rectangular + triangular meshes) with flexible boundary forcing; rollout training"
+    outputs:
+      probabilistic: false
+      ensembles: false
+    tags:
+      - "limited-area"
+      - "GNN"
+      - "rollout training"
+
+  - id: nordhagen2025_stretchedgrid
+    title: "High-Resolution Probabilistic Data-Driven Weather Modeling with a Stretched-Grid"
+    year: 2025
+    venue: "arXiv"
+    type: preprint
+    links:
+      landing: "https://arxiv.org/abs/2511.23043"
+      pdf: "https://arxiv.org/pdf/2511.23043.pdf"
+      html: "https://arxiv.org/html/2511.23043v1"
+    domain:
+      scope: "stretched grid (global with region of interest)"
+      nominal_resolution_km:
+        region_of_interest: 2.5
+        elsewhere: 31
+      timestep: "arbitrary forecast length (per paper)"
+    architecture:
+      family: "Stochastic encoder-decoder"
+      notes: "CRPS-based loss in real + spectral space for spatial coherence"
+    outputs:
+      probabilistic: true
+      ensembles: true
+    tags:
+      - "probabilistic"
+      - "stretched-grid"
+      - "CRPS"

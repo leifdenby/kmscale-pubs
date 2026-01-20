@@ -1,0 +1,52 @@
+# km_downscaling_and_generative.yaml
+# km-scale downscaling / generative regional models (produce km fields from coarser inputs)
+
+papers:
+  - id: mardani2023_corrdiff
+    title: "Residual Corrective Diffusion Modeling for Km-scale Atmospheric Downscaling"
+    year: 2023
+    venue: "arXiv"
+    type: preprint
+    links:
+      landing: "https://arxiv.org/abs/2309.15214"
+      pdf: "https://arxiv.org/pdf/2309.15214.pdf"
+      html: "https://arxiv.org/html/2309.15214"
+    domain:
+      scope: "regional downscaling"
+      input_resolution_km: 25
+      output_resolution_km: 2
+      region_case_study: "Taiwan (per paper)"
+    architecture:
+      family: "Two-stage: regression + diffusion"
+      notes: "UNet mean predictor + corrector diffusion model for residuals; probabilistic generation"
+    outputs:
+      probabilistic: true
+      ensembles: true
+    tags:
+      - "diffusion"
+      - "downscaling"
+      - "2km"
+
+  - id: nguyen2025_indiaweatherbench
+    title: "IndiaWeatherBench: A Dataset and Benchmark for Data-Driven Regional Weather Forecasting over India"
+    year: 2025
+    venue: "arXiv"
+    type: benchmark
+    links:
+      landing: "https://arxiv.org/abs/2509.00653"
+      pdf: "https://arxiv.org/pdf/2509.00653.pdf"
+      code: "https://github.com/tung-nd/IndiaWeatherBench"
+    domain:
+      scope: "regional benchmark"
+      region: "Indian subcontinent"
+      resolution: "high-resolution regional reanalysis-based (see paper for exact grids)"
+    architecture:
+      family: "Multiple baselines"
+      notes: "Baselines spanning UNets, Transformers, and graph-based networks; supports boundary conditioning strategies"
+    outputs:
+      probabilistic: "both (metrics + baselines include deterministic and probabilistic)"
+      ensembles: "some baselines"
+    tags:
+      - "benchmark"
+      - "regional"
+      - "baselines"

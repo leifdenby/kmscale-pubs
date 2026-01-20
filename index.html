@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kilometer-Scale ML Weather Forecasting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div class="bg-orbit"></div>
+    <div class="bg-grid"></div>
+
+    <header class="hero">
+      <div class="hero__content">
+        <p class="hero__eyebrow">Kilometer-Scale ML Weather Forecasting</p>
+        <h1>Research map for kilometer-scale forecasting, downscaling, and global priors</h1>
+        <p class="hero__lede">
+          This dashboard reads the local YAML catalogs and BibTeX bibliography, then joins
+          them on the shared publication id. Edit the YAML or `references.bib` and the tables
+          update instantly during development.
+        </p>
+        <div class="hero__meta">
+          <span id="last-updated">Last updated: --</span>
+          <span id="counts">0 papers</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section" id="km-forecasting">
+        <div class="section__header">
+          <h2>KM Forecasting Models</h2>
+          <p>True kilometer-scale forecasting systems or regional LAMs.</p>
+        </div>
+        <div class="table-wrap" id="table-forecasting"></div>
+      </section>
+
+      <section class="section" id="km-downscaling">
+        <div class="section__header">
+          <h2>KM Downscaling & Generative Models</h2>
+          <p>Diffusion, super-resolution, and benchmark efforts delivering km outputs.</p>
+        </div>
+        <div class="table-wrap" id="table-downscaling"></div>
+      </section>
+
+      <section class="section" id="global-priors">
+        <div class="section__header">
+          <h2>Global Drivers & Priors</h2>
+          <p>Global models frequently used as boundary conditions or baselines.</p>
+        </div>
+        <div class="table-wrap" id="table-global"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>
+        Data sources: `database/km_forecasting_models.yaml`,
+        `database/km_downscaling_and_generative.yaml`, `database/global_drivers_priors.yaml`,
+        and `database/references.bib`.
+      </p>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
