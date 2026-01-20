@@ -21,7 +21,9 @@ papers:
   - id: adamov2025_ml_lam
     domain:
       scope: "regional / limited-area"
-      nominal_resolution_km: null
+      nominal_resolution_km:
+        denmark: 2.5
+        switzerland: 2.2
       timestep: "multi-step rollout"
       regions_mentioned:
         - "Denmark"
@@ -40,7 +42,7 @@ papers:
   - id: oskarsson2023_graph_lam
     domain:
       scope: "regional / limited-area"
-      nominal_resolution_km: null
+      nominal_resolution_km: 10
       region: "Nordic region (MEPS LAM)"
     architecture:
       family: "Graph Neural Network (GNN)"
@@ -74,7 +76,9 @@ papers:
   - id: wijnands2025_lam_sgm_comparison
     domain:
       scope: "regional / limited-area + stretched grid comparison"
-      nominal_resolution_km: null
+      nominal_resolution_km:
+        regional_domain: 5.5
+        global_domain: 31
       region: "Europe"
     architecture:
       family: "Graph Neural Network (Anemoi framework)"
