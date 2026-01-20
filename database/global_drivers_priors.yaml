@@ -3,14 +3,6 @@
 
 papers:
   - id: han2024_fengwu_ghr
-    title: "FengWu-GHR: Learning the Kilometer-scale Medium-range Global Weather Forecasting"
-    year: 2024
-    venue: "arXiv"
-    type: preprint
-    links:
-      landing: "https://arxiv.org/abs/2402.00059"
-      pdf: "https://arxiv.org/pdf/2402.00059.pdf"
-      html: "https://arxiv.org/html/2402.00059v1"
     domain:
       scope: "global"
       nominal_resolution_km: 9
@@ -27,14 +19,6 @@ papers:
       - "transfer learning"
 
   - id: zhong2024_fuxi2
-    title: "FuXi-2.0: Advancing machine learning weather forecasting model for practical applications"
-    year: 2024
-    venue: "arXiv"
-    type: preprint
-    links:
-      landing: "https://arxiv.org/abs/2409.07188"
-      pdf: "https://arxiv.org/pdf/2409.07188.pdf"
-      html: "https://arxiv.org/html/2409.07188v1"
     domain:
       scope: "global"
       nominal_resolution: "coarse-global (see paper)"
@@ -51,15 +35,6 @@ papers:
       - "transformer"
 
   - id: zhuang2025_ladcast
-    title: "LaDCast: A Latent Diffusion Model for Medium-Range Ensemble Weather Forecasting"
-    year: 2025
-    venue: "arXiv"
-    type: preprint
-    links:
-      landing: "https://arxiv.org/abs/2506.09193"
-      pdf: "https://arxiv.org/pdf/2506.09193.pdf"
-      html: "https://arxiv.org/html/2506.09193v1"
-      code: "https://github.com/tonyzyl/ladcast"
     domain:
       scope: "global (latent space)"
       training_data: "ERA5 (per paper)"
@@ -76,13 +51,6 @@ papers:
       - "global"
 
   - id: lam2022_graphcast
-    title: "GraphCast: Learning skillful medium-range global weather forecasting"
-    year: 2022
-    venue: "arXiv"
-    type: preprint
-    links:
-      landing: "https://arxiv.org/abs/2212.12794"
-      pdf: "https://arxiv.org/pdf/2212.12794.pdf"
     domain:
       scope: "global"
       nominal_resolution_deg: 0.25
@@ -98,13 +66,6 @@ papers:
       - "global baseline"
 
   - id: bi2023_pangu
-    title: "Accurate medium-range global weather forecasting with 3D neural networks"
-    year: 2023
-    venue: "Nature"
-    type: journal
-    links:
-      landing: "https://www.nature.com/articles/s41586-023-06185-3"
-      open_access_fulltext: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10356604/"
     domain:
       scope: "global"
       nominal_resolution: "coarse-global (paper describes)"
@@ -119,13 +80,6 @@ papers:
       - "3D networks"
 
   - id: kochkov2024_neuralgcm
-    title: "Neural general circulation models for weather and climate"
-    year: 2024
-    venue: "Nature"
-    type: journal
-    links:
-      landing: "https://www.nature.com/articles/s41586-024-07744-y"
-      preprint: "https://arxiv.org/abs/2311.07222"
     domain:
       scope: "global"
       focus: "hybrid ML + differentiable solver"
@@ -140,13 +94,6 @@ papers:
       - "physics-guided"
 
   - id: allen2025_aardvark_nature
-    title: "End-to-end data-driven weather prediction"
-    year: 2025
-    venue: "Nature"
-    type: journal
-    links:
-      landing: "https://www.nature.com/articles/s41586-025-08897-0"
-      preprint: "https://arxiv.org/abs/2404.00411"
     domain:
       scope: "global end-to-end pipeline"
       inputs: "observations (end-to-end)"

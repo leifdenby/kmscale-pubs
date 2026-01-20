@@ -49,14 +49,31 @@ function normalizeAuthor(author) {
   return author.trim();
 }
 
-function formatAuthors(entry) {
-  const authors = entry?.entryTags?.author;
+function normalizeBibTags(entry) {
+  if (!entry?.entryTags) return {};
+  return Object.fromEntries(
+    Object.entries(entry.entryTags).map(([key, value]) => [key.toLowerCase(), value])
+  );
+}
+
+function formatAuthors(bibTags) {
+  const authors = bibTags.author;
   if (!authors) return "";
   const list = authors.split(" and ").map(normalizeAuthor).filter(Boolean);
   if (list.length <= 3) {
     return list.join(", ");
   }
   return `${list.slice(0, 3).join(", ")} et al.`;
+}
+
+function formatVenue(bibTags, paper) {
+  if (bibTags.journal) return bibTags.journal;
+  if (bibTags.booktitle) return bibTags.booktitle;
+  if (bibTags.archiveprefix && bibTags.archiveprefix.toLowerCase() === "arxiv") {
+    return "arXiv";
+  }
+  if (bibTags.publisher) return bibTags.publisher;
+  return paper?.venue || "";
 }
 
 function formatResolution(domain) {
@@ -91,12 +108,32 @@ function formatArchitecture(architecture) {
   return family || notes || "";
 }
 
-function formatLinks(paper, bibEntry) {
-  const links = { ...(paper.links || {}) };
-  if (!links.landing && bibEntry?.entryTags?.url) {
-    links.landing = bibEntry.entryTags.url;
+function collectLinks(bibTags, paper) {
+  const links = [];
+  const pdf = bibTags.pdf;
+  const url = bibTags.url;
+  const doi = bibTags.doi;
+
+  if (pdf) links.push(["pdf", pdf]);
+  if (url) links.push(["landing", url]);
+  if (doi) links.push(["doi", `https://doi.org/${doi}`]);
+
+  if (!pdf && url && url.includes("arxiv.org/abs/")) {
+    const arxivId = url.split("arxiv.org/abs/")[1];
+    if (arxivId) links.push(["pdf", `https://arxiv.org/pdf/${arxivId}.pdf`]);
   }
-  const entries = Object.entries(links).filter(([, value]) => value);
+
+  if (!links.length && paper?.links) {
+    Object.entries(paper.links).forEach(([label, href]) => {
+      if (href) links.push([label, href]);
+    });
+  }
+
+  return links;
+}
+
+function formatLinks(bibTags, paper) {
+  const entries = collectLinks(bibTags, paper);
   if (!entries.length) return "";
 
   return entries
@@ -134,16 +171,17 @@ function buildTable(papers, bibMap) {
 
   papers.forEach((paper) => {
     const bibEntry = bibMap.get(paper.id);
-    const title = paper.title || bibEntry?.entryTags?.title || "Untitled";
+    const bibTags = normalizeBibTags(bibEntry);
+    const title = bibTags.title || paper.title || "Untitled";
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${title}</td>
-      <td>${paper.year || ""}</td>
-      <td>${paper.venue || ""}</td>
+      <td>${bibTags.year || paper.year || ""}</td>
+      <td>${formatVenue(bibTags, paper)}</td>
       <td>${formatResolution(paper.domain)}</td>
       <td>${formatArchitecture(paper.architecture)}</td>
-      <td>${formatAuthors(bibEntry)}</td>
-      <td class="links">${formatLinks(paper, bibEntry)}</td>
+      <td>${formatAuthors(bibTags)}</td>
+      <td class="links">${formatLinks(bibTags, paper)}</td>
       <td>${formatTags(paper.tags)}</td>
     `;
     tbody.appendChild(row);

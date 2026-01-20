@@ -1,12 +1,12 @@
 # Kilometer-Scale ML Weather Forecasting Dashboard
 
-This repository hosts a small, hot-reloading website that summarizes publications relevant to machine learning based kilometer-scale weather forecasting. The site reads the three YAML catalogs and `references.bib`, joins entries on the shared publication `id`, and renders three tables for quick scanning.
+This repository hosts a small, hot-reloading website that summarizes publications relevant to machine learning based kilometer-scale weather forecasting. The site reads the three YAML catalogs and `references.bib`, joins entries on the shared publication `id`, and renders three tables for quick scanning. Citation metadata (title, authors, venue, URLs) is sourced from BibTeX; the YAML files only hold domain-specific metadata.
 
 ## Data sources
 
-- `database/km_forecasting_models.yaml`: Native km-scale forecasting systems / limited-area models
-- `database/km_downscaling_and_generative.yaml`: Downscaling, diffusion, and benchmark work that yields km outputs
-- `database/global_drivers_priors.yaml`: Global models used as drivers, priors, or baselines
+- `database/km_forecasting_models.yaml`: Domain-specific metadata for km-scale forecasting systems / limited-area models
+- `database/km_downscaling_and_generative.yaml`: Domain-specific metadata for downscaling, diffusion, and benchmark work
+- `database/global_drivers_priors.yaml`: Domain-specific metadata for global models used as drivers, priors, or baselines
 - `database/references.bib`: BibTeX entries keyed by the same `id` used in the YAML files
 
 ## Project structure
@@ -73,6 +73,7 @@ npm run lint
 - Add or edit publications in `database/*.yaml`, ensuring each entry has an `id`.
 - Add the matching BibTeX entry with the same key in `database/references.bib`.
 - The dev server will hot-reload tables as you save changes.
+- Keep citation metadata (title, authors, venue, URLs) inside `database/references.bib`.
 
 ## PDF downloader
 

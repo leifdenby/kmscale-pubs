@@ -3,14 +3,6 @@
 
 papers:
   - id: mardani2023_corrdiff
-    title: "Residual Corrective Diffusion Modeling for Km-scale Atmospheric Downscaling"
-    year: 2023
-    venue: "arXiv"
-    type: preprint
-    links:
-      landing: "https://arxiv.org/abs/2309.15214"
-      pdf: "https://arxiv.org/pdf/2309.15214.pdf"
-      html: "https://arxiv.org/html/2309.15214"
     domain:
       scope: "regional downscaling"
       input_resolution_km: 25
@@ -28,14 +20,6 @@ papers:
       - "2km"
 
   - id: nguyen2025_indiaweatherbench
-    title: "IndiaWeatherBench: A Dataset and Benchmark for Data-Driven Regional Weather Forecasting over India"
-    year: 2025
-    venue: "arXiv"
-    type: benchmark
-    links:
-      landing: "https://arxiv.org/abs/2509.00653"
-      pdf: "https://arxiv.org/pdf/2509.00653.pdf"
-      code: "https://github.com/tung-nd/IndiaWeatherBench"
     domain:
       scope: "regional benchmark"
       region: "Indian subcontinent"
