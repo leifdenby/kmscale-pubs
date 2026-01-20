@@ -91,3 +91,42 @@ papers:
       - "stretched-grid"
       - "regional"
       - "comparison"
+
+
+  - id: oskarsson2024_probabilisticweatherforecastingwithhiera
+    domain:
+      scope: "global + regional / limited-area"
+      nominal_resolution_km:
+        regional: 10
+      nominal_resolution_deg: 1.5
+      region: "Nordic region (MEPS LAM)"
+    architecture:
+      family: "Hierarchical Graph Neural Network (Graph-EFM)"
+      notes: "Latent-variable probabilistic model with efficient ensemble sampling"
+    outputs:
+      probabilistic: true
+      ensembles: true
+    tags:
+      - "probabilistic"
+      - "ensembles"
+      - "GNN"
+      - "limited-area"
+      - "global"
+
+
+  - id: larsson2025_crpslamregionalensembleweatherforecastin
+    domain:
+      scope: "regional / limited-area"
+      nominal_resolution_km: 10
+      region: "Nordic region (MEPS LAM)"
+    architecture:
+      family: "CRPS-LAM (ensemble LAM)"
+      notes: "CRPS-based training with single-pass ensemble sampling"
+    outputs:
+      probabilistic: true
+      ensembles: true
+    tags:
+      - "probabilistic"
+      - "ensembles"
+      - "limited-area"
+      - "CRPS"

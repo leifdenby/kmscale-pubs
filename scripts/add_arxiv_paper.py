@@ -27,6 +27,8 @@ CATEGORY_FILES = {
 
 
 def normalize_arxiv_id(url_or_id):
+    if url_or_id.endswith(".pdf"):
+        url_or_id = url_or_id[:-4]
     match = ARXIV_ABS_RE.search(url_or_id) or ARXIV_PDF_RE.search(url_or_id)
     if match:
         return match.group(1)
