@@ -189,15 +189,34 @@ function renderSection(target, papers, bibMap) {
   target.appendChild(buildTable(papers, bibMap));
 }
 
+function sortPapersByYear(papers, bibMap) {
+  return [...papers].sort((a, b) => {
+    const aTags = normalizeBibTags(bibMap.get(a.id));
+    const bTags = normalizeBibTags(bibMap.get(b.id));
+    const aYear = Number(aTags.year || a.year || 0);
+    const bYear = Number(bTags.year || b.year || 0);
+    if (aYear !== bYear) {
+      return bYear - aYear;
+    }
+    const aTitle = (aTags.title || a.title || "").toLowerCase();
+    const bTitle = (bTags.title || b.title || "").toLowerCase();
+    return aTitle.localeCompare(bTitle);
+  });
+}
+
 function renderAll() {
   const forecasting = safeLoadYaml(forecastingYaml).papers;
   const downscaling = safeLoadYaml(downscalingYaml).papers;
   const global = safeLoadYaml(globalYaml).papers;
   const bibMap = parseBibtex(bibText);
 
-  renderSection(tableTargets.forecasting, forecasting, bibMap);
-  renderSection(tableTargets.downscaling, downscaling, bibMap);
-  renderSection(tableTargets.global, global, bibMap);
+  const sortedForecasting = sortPapersByYear(forecasting, bibMap);
+  const sortedDownscaling = sortPapersByYear(downscaling, bibMap);
+  const sortedGlobal = sortPapersByYear(global, bibMap);
+
+  renderSection(tableTargets.forecasting, sortedForecasting, bibMap);
+  renderSection(tableTargets.downscaling, sortedDownscaling, bibMap);
+  renderSection(tableTargets.global, sortedGlobal, bibMap);
 
   const total = forecasting.length + downscaling.length + global.length;
   if (countsEl) countsEl.textContent = `${total} papers loaded`;
