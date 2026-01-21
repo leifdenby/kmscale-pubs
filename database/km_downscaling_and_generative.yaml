@@ -7,6 +7,7 @@ papers:
       scope: "regional downscaling"
       input_resolution_km: 25
       output_resolution_km: 2
+      temporal_resolution_hr: 1
       region_case_study: "Taiwan (per paper)"
     architecture:
       family: "Two-stage: regression + diffusion"
@@ -24,6 +25,7 @@ papers:
       scope: "regional benchmark"
       region: "Indian subcontinent"
       resolution: "high-resolution regional reanalysis-based (see paper for exact grids)"
+      temporal_resolution_hr: 6
     architecture:
       family: "Multiple baselines"
       notes: "Baselines spanning UNets, Transformers, and graph-based networks; supports boundary conditioning strategies"

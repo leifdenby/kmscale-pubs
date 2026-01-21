@@ -6,7 +6,7 @@ papers:
     domain:
       scope: "regional / limited-area"
       nominal_resolution_km: 3
-      timestep: "1-hourly"
+      temporal_resolution_hr: 1
     architecture:
       family: "CNN encoder-decoder"
       notes: "Parallel global–local structure; limited-area AI model with boundary forcing (per paper description)"
@@ -24,7 +24,9 @@ papers:
       nominal_resolution_km:
         denmark: 2.5
         switzerland: 2.2
-      timestep: "multi-step rollout"
+      temporal_resolution_hr:
+        denmark: 3
+        switzerland: 1
       regions_mentioned:
         - "Denmark"
         - "Switzerland"
@@ -43,6 +45,7 @@ papers:
     domain:
       scope: "regional / limited-area"
       nominal_resolution_km: 10
+      temporal_resolution_hr: 3
       region: "Nordic region (MEPS LAM)"
     architecture:
       family: "Graph Neural Network (GNN)"
@@ -61,7 +64,7 @@ papers:
       nominal_resolution_km:
         region_of_interest: 2.5
         elsewhere: 31
-      timestep: "arbitrary forecast length (per paper)"
+      temporal_resolution_hr: 6
     architecture:
       family: "Stochastic encoder-decoder"
       notes: "CRPS-based loss in real + spectral space for spatial coherence"
@@ -79,6 +82,7 @@ papers:
       nominal_resolution_km:
         regional_domain: 5.5
         global_domain: 31
+      temporal_resolution_hr: 6
       region: "Europe"
     architecture:
       family: "Graph Neural Network (Anemoi framework)"
@@ -99,6 +103,9 @@ papers:
       nominal_resolution_km:
         regional: 10
       nominal_resolution_deg: 1.5
+      temporal_resolution_hr:
+        global: 6
+        regional: 3
       region: "Nordic region (MEPS LAM)"
     architecture:
       family: "Hierarchical Graph Neural Network (Graph-EFM)"
@@ -118,6 +125,7 @@ papers:
     domain:
       scope: "regional / limited-area"
       nominal_resolution_km: 10
+      temporal_resolution_hr: 3
       region: "Nordic region (MEPS LAM)"
     architecture:
       family: "CRPS-LAM (ensemble LAM)"

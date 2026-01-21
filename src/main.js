@@ -66,7 +66,7 @@ function formatAuthors(bibTags) {
   return `${list.slice(0, 3).join(", ")} et al.`;
 }
 
-function formatResolution(domain) {
+function formatSpatialResolution(domain) {
   if (!domain || typeof domain !== "object") return "";
   if (typeof domain.nominal_resolution_km === "number") {
     return `${domain.nominal_resolution_km} km`;
@@ -88,6 +88,28 @@ function formatResolution(domain) {
   if (domain.resolution) return String(domain.resolution);
   if (domain.nominal_resolution) return String(domain.nominal_resolution);
   return "";
+}
+
+function formatTemporalResolution(domain) {
+  if (!domain || typeof domain !== "object") return "";
+  const temporal = domain.temporal_resolution_hr;
+  if (typeof temporal === "number") {
+    return `${temporal} h`;
+  }
+  if (temporal && typeof temporal === "object") {
+    const parts = Object.entries(temporal).map(
+      ([key, value]) => `${key.replace(/_/g, " ")}: ${value} h`
+    );
+    return parts.join(" | ");
+  }
+  return "";
+}
+
+function formatResolution(domain) {
+  const spatial = formatSpatialResolution(domain);
+  const temporal = formatTemporalResolution(domain);
+  if (spatial && temporal) return `${spatial} · ${temporal}`;
+  return spatial || temporal || "";
 }
 
 function formatArchitecture(architecture) {

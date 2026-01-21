@@ -7,6 +7,7 @@ papers:
       scope: "global"
       nominal_resolution_km: 9
       nominal_resolution_deg: 0.09
+      temporal_resolution_hr: 6
     architecture:
       family: "Deep neural forecasting model (attention-based / transformer-like)"
       notes: "High-resolution global forecasting via transfer learning from pretrained low-res model (see paper for exact blocks)"
@@ -22,7 +23,7 @@ papers:
     domain:
       scope: "global"
       nominal_resolution: "coarse-global (see paper)"
-      timestep: "1-hourly"
+      temporal_resolution_hr: 1
     architecture:
       family: "Transformer-style forecasting model"
       notes: "Designed to increase temporal resolution and variable coverage for practical applications"
@@ -38,7 +39,7 @@ papers:
     domain:
       scope: "global (latent space)"
       training_data: "ERA5 (per paper)"
-      timestep: "hourly ensembles in latent space"
+      temporal_resolution_hr: 6
     architecture:
       family: "Autoencoder + Transformer diffusion (latent diffusion)"
       notes: "Dual-stream attention; spherical/geometric positional encoding (GeoRoPE); probabilistic ensembles"
@@ -55,6 +56,7 @@ papers:
       scope: "global"
       nominal_resolution_deg: 0.25
       lead_time: "up to 10 days (per paper)"
+      temporal_resolution_hr: 6
     architecture:
       family: "Graph Neural Network (GNN)"
       notes: "Message passing on global grid/mesh; autoregressive rollouts"
@@ -69,6 +71,7 @@ papers:
     domain:
       scope: "global"
       nominal_resolution: "coarse-global (paper describes)"
+      temporal_resolution_hr: 1
     architecture:
       family: "3D neural networks (Vision Transformer-like with Earth-specific priors)"
       notes: "3D neural architecture for medium-range global forecasting (Pangu-Weather)"
@@ -83,6 +86,7 @@ papers:
     domain:
       scope: "global"
       focus: "hybrid ML + differentiable solver"
+      temporal_resolution_hr: 6
     architecture:
       family: "Hybrid physics + ML"
       notes: "Differentiable atmospheric dynamics core + learned components; aims at stability across weather/climate regimes"
@@ -98,6 +102,7 @@ papers:
       scope: "global end-to-end pipeline"
       inputs: "observations (end-to-end)"
       outputs: "global gridded + local station forecasts"
+      temporal_resolution_hr: 24
     architecture:
       family: "Neural process / end-to-end model"
       notes: "Single model replaces major parts of the NWP pipeline; trained end-to-end on observations → forecasts"
