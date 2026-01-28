@@ -36,3 +36,34 @@ papers:
       - "benchmark"
       - "regional"
       - "baselines"
+
+  - id: pathak2026_stormscope
+    domain:
+      scope: "regional nowcasting (CONUS)"
+      output_resolution_km: 6
+      temporal_resolution_hr: 0.167
+    architecture:
+      family: "Transformer diffusion (generative)"
+      notes: "Multi-modal satellite + radar diffusion model for storm-scale nowcasting"
+    outputs:
+      probabilistic: true
+      ensembles: true
+    tags:
+      - "diffusion"
+      - "nowcasting"
+      - "storm-scale"
+
+  - id: zambon2025_peakweather
+    domain:
+      scope: "station network (Switzerland)"
+      temporal_resolution_hr: 0.167
+    architecture:
+      family: "Dataset"
+      notes: "10-minute MeteoSwiss station observations with NWP baseline ensemble"
+    outputs:
+      probabilistic: true
+      ensembles: true
+    tags:
+      - "dataset"
+      - "stations"
+      - "switzerland"

@@ -94,11 +94,21 @@ function formatTemporalResolution(domain) {
   if (!domain || typeof domain !== "object") return "";
   const temporal = domain.temporal_resolution_hr;
   if (typeof temporal === "number") {
+    if (temporal < 1) {
+      const minutes = Math.round(temporal * 60);
+      return `${minutes} min`;
+    }
     return `${temporal} h`;
   }
   if (temporal && typeof temporal === "object") {
     const parts = Object.entries(temporal).map(
-      ([key, value]) => `${key.replace(/_/g, " ")}: ${value} h`
+      ([key, value]) => {
+        if (value < 1) {
+          const minutes = Math.round(value * 60);
+          return `${key.replace(/_/g, " ")}: ${minutes} min`;
+        }
+        return `${key.replace(/_/g, " ")}: ${value} h`;
+      }
     );
     return parts.join(" | ");
   }
