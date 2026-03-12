@@ -24,16 +24,93 @@
       </div>
       <div class="hero__content">
         <p class="hero__eyebrow">Kilometer-Scale ML Weather Forecasting</p>
-        <h1>Research map for kilometer-scale forecasting, downscaling, and global priors</h1>
+        <h1>Research map for kilometer-scale forecasting and downscaling</h1>
         <p class="hero__lede">
           This page is meant to serve as a living repository of research efforts applying machine learning to
-          kilometer-scale weather forecasting. It is organized into three sections:</p>
-          <ol>
-            <li><strong><a href="#km-forecasting">KM Forecasting Models</a></strong>: True kilometer-scale forecasting systems or regional LAMs.</li>
-            <li><strong><a href="#km-downscaling">KM Downscaling & Generative Models</a></strong>: Diffusion, super-resolution, and benchmark efforts delivering km outputs.</li>
-            <li><strong><a href="#global-priors">Global Drivers & Priors</a></strong>: Global models frequently used as boundary conditions or baselines for km-scale models.</li>
-          </ol>
+          kilometer-scale weather forecasting. The main view is organized first by task, then by whether the
+          model is deterministic or probabilistic. Global models are included only as a narrowly scoped
+          reference set when they are commonly used as drivers, priors, or baselines for kilometer-scale work.
         </p>
+        <div class="hero__matrix" aria-label="Navigation by task and model behavior">
+          <a class="hero__matrix-card" href="#forecasting-deterministic">
+            <span class="hero__matrix-inline" aria-hidden="true">
+              <svg class="hero__icon hero__icon--secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 17.5h14" />
+                <path d="M6.5 15 10 12.4l3 1.4 4.5-5.1" />
+                <circle cx="6.5" cy="15" r="1" fill="currentColor" stroke="none" />
+                <circle cx="10" cy="12.4" r="1" fill="currentColor" stroke="none" />
+                <circle cx="13" cy="13.8" r="1" fill="currentColor" stroke="none" />
+                <circle cx="17.5" cy="8.7" r="1" fill="currentColor" stroke="none" />
+              </svg>
+              <span class="hero__matrix-text">Deterministic</span>
+            </span>
+            <span class="hero__matrix-task" aria-hidden="true">
+              <svg class="hero__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 18h11a4 4 0 0 0 0-8 5.5 5.5 0 0 0-10.6-1.7A4.5 4.5 0 0 0 6 18Z" />
+                <path d="M10 12h7" />
+                <path d="m14 9 3 3-3 3" />
+              </svg>
+              <span>Forecasting</span>
+            </span>
+          </a>
+          <a class="hero__matrix-card" href="#forecasting-probabilistic">
+            <span class="hero__matrix-inline" aria-hidden="true">
+              <svg class="hero__icon hero__icon--secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4.5 17.5h15" />
+                <path d="M6 17.5c1.5-5.2 3.7-8 6-8s4.5 2.8 6 8" />
+              </svg>
+              <span class="hero__matrix-text">Probabilistic</span>
+            </span>
+            <span class="hero__matrix-task" aria-hidden="true">
+              <svg class="hero__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 18h11a4 4 0 0 0 0-8 5.5 5.5 0 0 0-10.6-1.7A4.5 4.5 0 0 0 6 18Z" />
+                <path d="M10 12h7" />
+                <path d="m14 9 3 3-3 3" />
+              </svg>
+              <span>Forecasting</span>
+            </span>
+          </a>
+          <a class="hero__matrix-card" href="#downscaling-deterministic">
+            <span class="hero__matrix-inline" aria-hidden="true">
+              <svg class="hero__icon hero__icon--secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 17.5h14" />
+                <path d="M6.5 15 10 12.4l3 1.4 4.5-5.1" />
+                <circle cx="6.5" cy="15" r="1" fill="currentColor" stroke="none" />
+                <circle cx="10" cy="12.4" r="1" fill="currentColor" stroke="none" />
+                <circle cx="13" cy="13.8" r="1" fill="currentColor" stroke="none" />
+                <circle cx="17.5" cy="8.7" r="1" fill="currentColor" stroke="none" />
+              </svg>
+              <span class="hero__matrix-text">Deterministic</span>
+            </span>
+            <span class="hero__matrix-task" aria-hidden="true">
+              <svg class="hero__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3.5" y="4" width="8" height="8" rx="1.5" />
+                <rect x="12.5" y="12" width="8" height="8" rx="1.5" />
+                <path d="m10.5 13.5 3-3" />
+                <path d="m11.5 8.5 4 4" />
+              </svg>
+              <span>Downscaling</span>
+            </span>
+          </a>
+          <a class="hero__matrix-card" href="#downscaling-probabilistic">
+            <span class="hero__matrix-inline" aria-hidden="true">
+              <svg class="hero__icon hero__icon--secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4.5 17.5h15" />
+                <path d="M6 17.5c1.5-5.2 3.7-8 6-8s4.5 2.8 6 8" />
+              </svg>
+              <span class="hero__matrix-text">Probabilistic</span>
+            </span>
+            <span class="hero__matrix-task" aria-hidden="true">
+              <svg class="hero__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3.5" y="4" width="8" height="8" rx="1.5" />
+                <rect x="12.5" y="12" width="8" height="8" rx="1.5" />
+                <path d="m10.5 13.5 3-3" />
+                <path d="m11.5 8.5 4 4" />
+              </svg>
+              <span>Downscaling</span>
+            </span>
+          </a>
+        </div>
         <div class="hero__meta">
           <span id="last-updated">Last updated: --</span>
           <span id="counts">0 papers</span>
@@ -47,21 +124,47 @@
           <h2>KM Forecasting Models</h2>
           <p>True kilometer-scale forecasting systems or regional LAMs.</p>
         </div>
-        <div class="table-wrap" id="table-forecasting"></div>
+        <div class="subsection" id="forecasting-deterministic">
+          <div class="subsection__header">
+            <h3>Deterministic</h3>
+            <p>Single best-estimate forecasting models without explicit probabilistic outputs.</p>
+          </div>
+          <div class="table-wrap" id="table-forecasting-deterministic"></div>
+        </div>
+        <div class="subsection" id="forecasting-probabilistic">
+          <div class="subsection__header">
+            <h3>Probabilistic</h3>
+            <p>Forecasting models with explicit uncertainty estimates, distributions, or ensemble generation.</p>
+          </div>
+          <div class="table-wrap" id="table-forecasting-probabilistic"></div>
+        </div>
       </section>
 
       <section class="section" id="km-downscaling">
         <div class="section__header">
-          <h2>KM Downscaling & Generative Models</h2>
-          <p>Diffusion, super-resolution, and benchmark efforts delivering km outputs.</p>
+          <h2>KM Downscaling</h2>
+          <p>Regional super-resolution, statistical downscaling, and benchmark efforts delivering kilometer-scale outputs.</p>
         </div>
-        <div class="table-wrap" id="table-downscaling"></div>
+        <div class="subsection" id="downscaling-deterministic">
+          <div class="subsection__header">
+            <h3>Deterministic</h3>
+            <p>Downscaling and benchmark systems focused on single predictions or deterministic baselines.</p>
+          </div>
+          <div class="table-wrap" id="table-downscaling-deterministic"></div>
+        </div>
+        <div class="subsection" id="downscaling-probabilistic">
+          <div class="subsection__header">
+            <h3>Probabilistic</h3>
+            <p>Downscaling systems that represent uncertainty explicitly, including ensemble and distributional methods.</p>
+          </div>
+          <div class="table-wrap" id="table-downscaling-probabilistic"></div>
+        </div>
       </section>
 
-      <section class="section" id="global-priors">
+      <section class="section section--subtle" id="global-context">
         <div class="section__header">
-          <h2>Global Drivers & Priors</h2>
-          <p>Global models frequently used as boundary conditions or baselines.</p>
+          <h2>Selected Global Context</h2>
+          <p>Intentionally limited to a small set of widely referenced global drivers, priors, or baselines relevant to kilometer-scale modeling.</p>
         </div>
         <div class="table-wrap" id="table-global"></div>
       </section>

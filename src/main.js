@@ -7,8 +7,10 @@ import globalYaml from "../database/global_drivers_priors.yaml?raw";
 import bibText from "../database/references.bib?raw";
 
 const tableTargets = {
-  forecasting: document.querySelector("#table-forecasting"),
-  downscaling: document.querySelector("#table-downscaling"),
+  forecastingDeterministic: document.querySelector("#table-forecasting-deterministic"),
+  forecastingProbabilistic: document.querySelector("#table-forecasting-probabilistic"),
+  downscalingDeterministic: document.querySelector("#table-downscaling-deterministic"),
+  downscalingProbabilistic: document.querySelector("#table-downscaling-probabilistic"),
   global: document.querySelector("#table-global"),
 };
 
@@ -170,6 +172,13 @@ function formatTags(tags) {
     .join("")}</div>`;
 }
 
+function isProbabilisticPaper(paper) {
+  const value = paper.outputs?.probabilistic;
+  if (typeof value === "boolean") return value;
+  if (typeof value === "string") return value.trim().length > 0;
+  return false;
+}
+
 function buildTable(papers, bibMap) {
   const table = document.createElement("table");
   table.className = "table";
@@ -181,8 +190,6 @@ function buildTable(papers, bibMap) {
         <th>Year</th>
         <th>Resolution</th>
         <th>Architecture</th>
-        <th class="rotate"><span><abbr title="Probabilistic">Prob.</abbr></span></th>
-        <th class="rotate"><span><abbr title="Ensembles">Ens.</abbr></span></th>
         <th>Authors</th>
         <th>Links</th>
         <th>Tags</th>
@@ -202,8 +209,6 @@ function buildTable(papers, bibMap) {
       <td>${bibTags.year || paper.year || ""}</td>
       <td>${formatResolution(paper.domain)}</td>
       <td>${formatArchitecture(paper.architecture)}</td>
-      <td>${paper.outputs?.probabilistic ? "✓" : "✕"}</td>
-      <td>${paper.outputs?.ensembles ? "✓" : "✕"}</td>
       <td>${formatAuthors(bibTags)}</td>
       <td><div class="links">${formatLinks(bibTags, paper)}</div></td>
       <td>${formatTags(paper.tags)}</td>
@@ -241,13 +246,21 @@ function renderAll() {
   const downscaling = safeLoadYaml(downscalingYaml).papers;
   const global = safeLoadYaml(globalYaml).papers;
   const bibMap = parseBibtex(bibText);
+  const forecastingDeterministic = forecasting.filter((paper) => !isProbabilisticPaper(paper));
+  const forecastingProbabilistic = forecasting.filter(isProbabilisticPaper);
+  const downscalingDeterministic = downscaling.filter((paper) => !isProbabilisticPaper(paper));
+  const downscalingProbabilistic = downscaling.filter(isProbabilisticPaper);
 
-  const sortedForecasting = sortPapersByYear(forecasting, bibMap);
-  const sortedDownscaling = sortPapersByYear(downscaling, bibMap);
+  const sortedForecastingDeterministic = sortPapersByYear(forecastingDeterministic, bibMap);
+  const sortedForecastingProbabilistic = sortPapersByYear(forecastingProbabilistic, bibMap);
+  const sortedDownscalingDeterministic = sortPapersByYear(downscalingDeterministic, bibMap);
+  const sortedDownscalingProbabilistic = sortPapersByYear(downscalingProbabilistic, bibMap);
   const sortedGlobal = sortPapersByYear(global, bibMap);
 
-  renderSection(tableTargets.forecasting, sortedForecasting, bibMap);
-  renderSection(tableTargets.downscaling, sortedDownscaling, bibMap);
+  renderSection(tableTargets.forecastingDeterministic, sortedForecastingDeterministic, bibMap);
+  renderSection(tableTargets.forecastingProbabilistic, sortedForecastingProbabilistic, bibMap);
+  renderSection(tableTargets.downscalingDeterministic, sortedDownscalingDeterministic, bibMap);
+  renderSection(tableTargets.downscalingProbabilistic, sortedDownscalingProbabilistic, bibMap);
   renderSection(tableTargets.global, sortedGlobal, bibMap);
 
   const total = forecasting.length + downscaling.length + global.length;
