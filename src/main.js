@@ -1,10 +1,13 @@
-import yaml from "js-yaml";
-import bibtexParse from "bibtex-parse-js";
-
-import forecastingYaml from "../database/km_forecasting_models.yaml?raw";
-import downscalingYaml from "../database/km_downscaling_and_generative.yaml?raw";
-import globalYaml from "../database/global_drivers_priors.yaml?raw";
-import bibText from "../database/references.bib?raw";
+import {
+  collectLinks,
+  formatArchitecture,
+  formatAuthors,
+  formatResolution,
+  isProbabilisticPaper,
+  loadPaperDatabase,
+  normalizeBibTags,
+  sortPapersByYear,
+} from "./lib/papers.js";
 
 const tableTargets = {
   forecastingDeterministic: document.querySelector("#table-forecasting-deterministic"),
@@ -16,145 +19,6 @@ const tableTargets = {
 
 const countsEl = document.querySelector("#counts");
 const updatedEl = document.querySelector("#last-updated");
-
-function safeLoadYaml(text) {
-  try {
-    const doc = yaml.load(text);
-    if (!doc || typeof doc !== "object") {
-      return { papers: [] };
-    }
-    return { papers: Array.isArray(doc.papers) ? doc.papers : [] };
-  } catch (error) {
-    console.error("YAML parse error", error);
-    return { papers: [] };
-  }
-}
-
-function parseBibtex(text) {
-  try {
-    const entries = bibtexParse.toJSON(text) || [];
-    return new Map(entries.map((entry) => [entry.citationKey, entry]));
-  } catch (error) {
-    console.error("BibTeX parse error", error);
-    return new Map();
-  }
-}
-
-function normalizeAuthor(author) {
-  if (!author) return "";
-  if (author.includes(",")) {
-    const parts = author.split(",").map((part) => part.trim());
-    if (parts.length >= 2) {
-      return `${parts[1]} ${parts[0]}`.trim();
-    }
-  }
-  return author.trim();
-}
-
-function normalizeBibTags(entry) {
-  if (!entry?.entryTags) return {};
-  return Object.fromEntries(
-    Object.entries(entry.entryTags).map(([key, value]) => [key.toLowerCase(), value])
-  );
-}
-
-function formatAuthors(bibTags) {
-  const authors = bibTags.author;
-  if (!authors) return "";
-  const list = authors.split(" and ").map(normalizeAuthor).filter(Boolean);
-  if (list.length <= 3) {
-    return list.join(", ");
-  }
-  return `${list.slice(0, 3).join(", ")} et al.`;
-}
-
-function formatSpatialResolution(domain) {
-  if (!domain || typeof domain !== "object") return "";
-  if (typeof domain.nominal_resolution_km === "number") {
-    return `${domain.nominal_resolution_km} km`;
-  }
-  if (domain.nominal_resolution_km && typeof domain.nominal_resolution_km === "object") {
-    const parts = Object.entries(domain.nominal_resolution_km).map(
-      ([key, value]) => `${key.replace(/_/g, " ")}: ${value} km`
-    );
-    return parts.join(" | ");
-  }
-  if (domain.nominal_resolution_deg) {
-    return `${domain.nominal_resolution_deg} deg`;
-  }
-  if (domain.input_resolution_km || domain.output_resolution_km) {
-    const input = domain.input_resolution_km ? `${domain.input_resolution_km} km in` : "";
-    const output = domain.output_resolution_km ? `${domain.output_resolution_km} km out` : "";
-    return [input, output].filter(Boolean).join(" -> ");
-  }
-  if (domain.resolution) return String(domain.resolution);
-  if (domain.nominal_resolution) return String(domain.nominal_resolution);
-  return "";
-}
-
-function formatTemporalResolution(domain) {
-  if (!domain || typeof domain !== "object") return "";
-  const temporal = domain.temporal_resolution_hr;
-  if (typeof temporal === "number") {
-    if (temporal < 1) {
-      const minutes = Math.round(temporal * 60);
-      return `${minutes} min`;
-    }
-    return `${temporal} h`;
-  }
-  if (temporal && typeof temporal === "object") {
-    const parts = Object.entries(temporal).map(
-      ([key, value]) => {
-        if (value < 1) {
-          const minutes = Math.round(value * 60);
-          return `${key.replace(/_/g, " ")}: ${minutes} min`;
-        }
-        return `${key.replace(/_/g, " ")}: ${value} h`;
-      }
-    );
-    return parts.join(" | ");
-  }
-  return "";
-}
-
-function formatResolution(domain) {
-  const spatial = formatSpatialResolution(domain);
-  const temporal = formatTemporalResolution(domain);
-  if (spatial && temporal) return `${spatial} · ${temporal}`;
-  return spatial || temporal || "";
-}
-
-function formatArchitecture(architecture) {
-  if (!architecture) return "";
-  const family = architecture.family ? String(architecture.family) : "";
-  const notes = architecture.notes || architecture.details;
-  if (family && notes) return `${family}. ${notes}`;
-  return family || notes || "";
-}
-
-function collectLinks(bibTags, paper) {
-  const links = [];
-  const pdf = bibTags.pdf;
-  const url = bibTags.url;
-  const doi = bibTags.doi;
-
-  if (pdf) links.push(["pdf", pdf]);
-  if (url) links.push(["landing", url]);
-  if (doi) links.push(["doi", `https://doi.org/${doi}`]);
-
-  if (!pdf && url && url.includes("arxiv.org/abs/")) {
-    const arxivId = url.split("arxiv.org/abs/")[1];
-    if (arxivId) links.push(["pdf", `https://arxiv.org/pdf/${arxivId}.pdf`]);
-  }
-
-  if (!links.length && paper?.links) {
-    Object.entries(paper.links).forEach(([label, href]) => {
-      if (href) links.push([label, href]);
-    });
-  }
-
-  return links;
-}
 
 function formatLinks(bibTags, paper) {
   const entries = collectLinks(bibTags, paper);
@@ -170,13 +34,6 @@ function formatTags(tags) {
   return `<div class="badges">${tags
     .map((tag) => `<span class="badge">${tag}</span>`)
     .join("")}</div>`;
-}
-
-function isProbabilisticPaper(paper) {
-  const value = paper.outputs?.probabilistic;
-  if (typeof value === "boolean") return value;
-  if (typeof value === "string") return value.trim().length > 0;
-  return false;
 }
 
 function buildTable(papers, bibMap) {
@@ -200,8 +57,7 @@ function buildTable(papers, bibMap) {
   const tbody = document.createElement("tbody");
 
   papers.forEach((paper) => {
-    const bibEntry = bibMap.get(paper.id);
-    const bibTags = normalizeBibTags(bibEntry);
+    const bibTags = normalizeBibTags(bibMap.get(paper.id));
     const title = bibTags.title || paper.title || "Untitled";
     const row = document.createElement("tr");
     row.innerHTML = `
@@ -226,52 +82,52 @@ function renderSection(target, papers, bibMap) {
   target.appendChild(buildTable(papers, bibMap));
 }
 
-function sortPapersByYear(papers, bibMap) {
-  return [...papers].sort((a, b) => {
-    const aTags = normalizeBibTags(bibMap.get(a.id));
-    const bTags = normalizeBibTags(bibMap.get(b.id));
-    const aYear = Number(aTags.year || a.year || 0);
-    const bYear = Number(bTags.year || b.year || 0);
-    if (aYear !== bYear) {
-      return bYear - aYear;
-    }
-    const aTitle = (aTags.title || a.title || "").toLowerCase();
-    const bTitle = (bTags.title || b.title || "").toLowerCase();
-    return aTitle.localeCompare(bTitle);
-  });
-}
+async function renderAll() {
+  const { sections, bibMap } = await loadPaperDatabase();
+  const forecastingDeterministic = sections.forecasting.filter(
+    (paper) => !isProbabilisticPaper(paper)
+  );
+  const forecastingProbabilistic = sections.forecasting.filter(isProbabilisticPaper);
+  const downscalingDeterministic = sections.downscaling.filter(
+    (paper) => !isProbabilisticPaper(paper)
+  );
+  const downscalingProbabilistic = sections.downscaling.filter(isProbabilisticPaper);
 
-function renderAll() {
-  const forecasting = safeLoadYaml(forecastingYaml).papers;
-  const downscaling = safeLoadYaml(downscalingYaml).papers;
-  const global = safeLoadYaml(globalYaml).papers;
-  const bibMap = parseBibtex(bibText);
-  const forecastingDeterministic = forecasting.filter((paper) => !isProbabilisticPaper(paper));
-  const forecastingProbabilistic = forecasting.filter(isProbabilisticPaper);
-  const downscalingDeterministic = downscaling.filter((paper) => !isProbabilisticPaper(paper));
-  const downscalingProbabilistic = downscaling.filter(isProbabilisticPaper);
+  renderSection(
+    tableTargets.forecastingDeterministic,
+    sortPapersByYear(forecastingDeterministic, bibMap),
+    bibMap
+  );
+  renderSection(
+    tableTargets.forecastingProbabilistic,
+    sortPapersByYear(forecastingProbabilistic, bibMap),
+    bibMap
+  );
+  renderSection(
+    tableTargets.downscalingDeterministic,
+    sortPapersByYear(downscalingDeterministic, bibMap),
+    bibMap
+  );
+  renderSection(
+    tableTargets.downscalingProbabilistic,
+    sortPapersByYear(downscalingProbabilistic, bibMap),
+    bibMap
+  );
+  renderSection(tableTargets.global, sortPapersByYear(sections.global, bibMap), bibMap);
 
-  const sortedForecastingDeterministic = sortPapersByYear(forecastingDeterministic, bibMap);
-  const sortedForecastingProbabilistic = sortPapersByYear(forecastingProbabilistic, bibMap);
-  const sortedDownscalingDeterministic = sortPapersByYear(downscalingDeterministic, bibMap);
-  const sortedDownscalingProbabilistic = sortPapersByYear(downscalingProbabilistic, bibMap);
-  const sortedGlobal = sortPapersByYear(global, bibMap);
-
-  renderSection(tableTargets.forecastingDeterministic, sortedForecastingDeterministic, bibMap);
-  renderSection(tableTargets.forecastingProbabilistic, sortedForecastingProbabilistic, bibMap);
-  renderSection(tableTargets.downscalingDeterministic, sortedDownscalingDeterministic, bibMap);
-  renderSection(tableTargets.downscalingProbabilistic, sortedDownscalingProbabilistic, bibMap);
-  renderSection(tableTargets.global, sortedGlobal, bibMap);
-
-  const total = forecasting.length + downscaling.length + global.length;
+  const total =
+    sections.forecasting.length + sections.downscaling.length + sections.global.length;
   if (countsEl) countsEl.textContent = `${total} papers loaded`;
   if (updatedEl) updatedEl.textContent = `Last updated: ${new Date().toLocaleString()}`;
 }
 
-renderAll();
+void renderAll();
 
 if (import.meta.hot) {
   import.meta.hot.accept(() => {
-    renderAll();
+    void renderAll();
+  });
+  import.meta.hot.on("database-updated", () => {
+    void renderAll();
   });
 }

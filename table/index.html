@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paper Table Editor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="/src/table.css" />
+  </head>
+  <body>
+    <div class="bg-orbit"></div>
+    <div class="bg-grid"></div>
+
+    <header class="hero hero--compact">
+      <div class="topbar">
+        <a class="topbar__link" href="../" rel="noopener">Main view</a>
+      </div>
+      <div class="hero__content">
+        <p class="hero__eyebrow">Paper Table Editor</p>
+        <h1>Edit paper details in a single master table</h1>
+        <p class="hero__lede">
+          This page loads the existing YAML and BibTeX data, lets you edit a unified view,
+          and writes changes back to the local source files through the Vite source API when you save.
+          Drafts are also cached in browser `localStorage` while you edit.
+        </p>
+      </div>
+    </header>
+
+    <main class="editor-layout">
+      <section class="section">
+        <div class="editor-toolbar">
+          <input id="paper-search" class="editor-input" type="search" placeholder="Filter by title, id, tag, or author" />
+          <select id="section-filter" class="editor-input">
+            <option value="all">All sections</option>
+            <option value="forecasting">Forecasting</option>
+            <option value="downscaling">Downscaling</option>
+            <option value="global">Global</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table class="table table--editor">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Section</th>
+                <th>Year</th>
+                <th>Resolution</th>
+              </tr>
+            </thead>
+            <tbody id="editor-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <aside class="section editor-panel">
+        <div class="section__header">
+          <h2 id="editor-title">Select a paper</h2>
+          <p id="editor-subtitle">Choose a row to edit its draft metadata.</p>
+        </div>
+
+        <form id="paper-form" class="editor-form">
+          <label class="editor-field">
+            <span>Title</span>
+            <input class="editor-input" name="title" type="text" />
+          </label>
+          <label class="editor-field">
+            <span>Authors</span>
+            <textarea class="editor-input" name="author" rows="3"></textarea>
+          </label>
+          <label class="editor-field">
+            <span>Year</span>
+            <input class="editor-input" name="year" type="text" />
+          </label>
+          <label class="editor-field">
+            <span>Landing URL</span>
+            <div class="editor-linkrow">
+              <input class="editor-input" name="url" type="url" />
+              <a class="editor-linkbutton" data-link-target="url" href="#" target="_blank" rel="noopener" aria-label="Open landing URL">
+                ↗
+              </a>
+            </div>
+          </label>
+          <label class="editor-field">
+            <span>PDF URL</span>
+            <div class="editor-linkrow">
+              <input class="editor-input" name="pdf" type="url" />
+              <a class="editor-linkbutton" data-link-target="pdf" href="#" target="_blank" rel="noopener" aria-label="Open PDF URL">
+                ↗
+              </a>
+            </div>
+          </label>
+          <label class="editor-field">
+            <span>DOI</span>
+            <div class="editor-linkrow">
+              <input class="editor-input" name="doi" type="text" />
+              <a class="editor-linkbutton" data-link-target="doi" href="#" target="_blank" rel="noopener" aria-label="Open DOI">
+                ↗
+              </a>
+            </div>
+          </label>
+          <label class="editor-field">
+            <span>Section</span>
+            <select class="editor-input" name="section">
+              <option value="forecasting">Forecasting</option>
+              <option value="downscaling">Downscaling</option>
+              <option value="global">Global</option>
+            </select>
+          </label>
+          <label class="editor-field">
+            <span>Scope</span>
+            <input class="editor-input" name="scope" type="text" />
+          </label>
+          <label class="editor-field">
+            <span>Spatial resolution</span>
+            <textarea class="editor-input" name="spatial" rows="2"></textarea>
+          </label>
+          <label class="editor-field">
+            <span>Temporal resolution</span>
+            <textarea class="editor-input" name="temporal" rows="2"></textarea>
+          </label>
+          <label class="editor-field">
+            <span>Architecture family</span>
+            <input class="editor-input" name="family" type="text" />
+          </label>
+          <label class="editor-field">
+            <span>Architecture notes</span>
+            <textarea class="editor-input" name="notes" rows="4"></textarea>
+          </label>
+          <label class="editor-field">
+            <span>Tags (comma-separated)</span>
+            <textarea class="editor-input" name="tags" rows="2"></textarea>
+          </label>
+          <div class="editor-grid">
+            <label class="editor-check">
+              <input name="probabilistic" type="checkbox" />
+              <span>Probabilistic</span>
+            </label>
+            <label class="editor-check">
+              <input name="ensembles" type="checkbox" />
+              <span>Ensembles</span>
+            </label>
+          </div>
+        </form>
+
+      </aside>
+    </main>
+
+    <div id="save-toast" class="save-toast" aria-live="polite" aria-hidden="true">
+      <span class="save-toast__icon">✓</span>
+      <span id="save-toast-text">Saved</span>
+    </div>
+
+    <script type="module" src="/src/table.js"></script>
+  </body>
+  </html>
