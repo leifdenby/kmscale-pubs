@@ -64,6 +64,10 @@
           <p id="editor-subtitle">Choose a row to edit its draft metadata.</p>
         </div>
 
+        <div id="editor-mode-notice" class="editor-notice" hidden>
+          Editing is available only in local development mode. Run `npm run dev` to enable source-file writes.
+        </div>
+
         <form id="paper-form" class="editor-form">
           <label class="editor-field">
             <span>Title</span>
@@ -117,11 +121,11 @@
             <input class="editor-input" name="scope" type="text" />
           </label>
           <label class="editor-field">
-            <span>Spatial resolution</span>
+            <span>Spatial resolution (km)</span>
             <textarea class="editor-input" name="spatial" rows="2"></textarea>
           </label>
           <label class="editor-field">
-            <span>Temporal resolution</span>
+            <span>Temporal resolution (h)</span>
             <textarea class="editor-input" name="temporal" rows="2"></textarea>
           </label>
           <label class="editor-field">

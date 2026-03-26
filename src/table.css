@@ -64,6 +64,20 @@
   top: 1.5rem;
 }
 
+.editor-panel.is-readonly .editor-form {
+  display: none;
+}
+
+.editor-notice {
+  margin-bottom: 1rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(255, 138, 76, 0.2);
+  border-radius: 16px;
+  background: rgba(255, 138, 76, 0.08);
+  color: var(--ink);
+  line-height: 1.5;
+}
+
 .editor-form {
   display: grid;
   gap: 0.9rem;

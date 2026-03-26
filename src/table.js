@@ -19,11 +19,14 @@ const rowsEl = document.querySelector("#editor-rows");
 const searchEl = document.querySelector("#paper-search");
 const sectionFilterEl = document.querySelector("#section-filter");
 const formEl = document.querySelector("#paper-form");
+const editorPanelEl = document.querySelector(".editor-panel");
+const editorModeNoticeEl = document.querySelector("#editor-mode-notice");
 const titleEl = document.querySelector("#editor-title");
 const subtitleEl = document.querySelector("#editor-subtitle");
 const linkButtons = document.querySelectorAll("[data-link-target]");
 const saveToastEl = document.querySelector("#save-toast");
 const saveToastTextEl = document.querySelector("#save-toast-text");
+const IS_EDITOR_ENABLED = import.meta.env.DEV;
 
 let drafts = loadDrafts();
 let basePapers = [];
@@ -108,6 +111,20 @@ function maybeObjectToString(value) {
 
 function getSelectedPaper() {
   return basePapers.find((paper) => paper.id === selectedId) || null;
+}
+
+function applyEditorMode() {
+  if (IS_EDITOR_ENABLED) {
+    editorPanelEl.classList.remove("is-readonly");
+    editorModeNoticeEl.hidden = true;
+    return;
+  }
+
+  editorPanelEl.classList.add("is-readonly");
+  editorModeNoticeEl.hidden = false;
+  [...formEl.elements].forEach((field) => {
+    field.disabled = true;
+  });
 }
 
 async function refreshFromDatabase() {
@@ -397,6 +414,7 @@ async function saveToSource(paper, draft) {
 }
 
 async function saveCurrentDraft() {
+  if (!IS_EDITOR_ENABLED) return;
   const paper = getSelectedPaper();
   if (!paper) return;
 
@@ -436,6 +454,7 @@ function updateLinkButtons() {
 }
 
 function scheduleAutosave() {
+  if (!IS_EDITOR_ENABLED) return;
   if (isHydratingForm) return;
   const draft = collectFormState();
   const paper = getSelectedPaper();
@@ -460,35 +479,38 @@ formEl.addEventListener("submit", (event) => {
 ["url", "pdf", "doi"].forEach((name) => {
   formEl.elements[name].addEventListener("input", updateLinkButtons);
 });
-[
-  "title",
-  "author",
-  "year",
-  "url",
-  "pdf",
-  "doi",
-  "section",
-  "scope",
-  "spatial",
-  "temporal",
-  "family",
-  "notes",
-  "tags",
-  "probabilistic",
-  "ensembles",
-].forEach((name) => {
-  const field = formEl.elements[name];
-  const eventName =
-    field instanceof HTMLInputElement &&
-    (field.type === "checkbox" || field.tagName === "SELECT")
-      ? "change"
-      : "input";
-  field.addEventListener(eventName, scheduleAutosave);
-  if (eventName !== "change") {
-    field.addEventListener("change", scheduleAutosave);
-  }
-});
+if (IS_EDITOR_ENABLED) {
+  [
+    "title",
+    "author",
+    "year",
+    "url",
+    "pdf",
+    "doi",
+    "section",
+    "scope",
+    "spatial",
+    "temporal",
+    "family",
+    "notes",
+    "tags",
+    "probabilistic",
+    "ensembles",
+  ].forEach((name) => {
+    const field = formEl.elements[name];
+    const eventName =
+      field instanceof HTMLInputElement &&
+      (field.type === "checkbox" || field.tagName === "SELECT")
+        ? "change"
+        : "input";
+    field.addEventListener(eventName, scheduleAutosave);
+    if (eventName !== "change") {
+      field.addEventListener("change", scheduleAutosave);
+    }
+  });
+}
 
+applyEditorMode();
 void refreshFromDatabase();
 
 if (import.meta.hot) {
