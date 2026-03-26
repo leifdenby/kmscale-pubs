@@ -1,69 +1,64 @@
-# km_downscaling_and_generative.yaml
-# km-scale downscaling / generative regional models (produce km fields from coarser inputs)
-
 papers:
   - id: mardani2023_corrdiff
     domain:
-      scope: "regional downscaling"
+      scope: regional downscaling
       input_resolution_km: 25
       output_resolution_km: 2
       temporal_resolution_hr: 1
-      region_case_study: "Taiwan (per paper)"
+      region_case_study: Taiwan (per paper)
     architecture:
-      family: "Two-stage: regression + diffusion"
-      notes: "UNet mean predictor + corrector diffusion model for residuals; probabilistic generation"
+      family: 'Two-stage: regression + diffusion'
+      notes: UNet mean predictor + corrector diffusion model for residuals; probabilistic generation
     outputs:
       probabilistic: true
       ensembles: true
     tags:
-      - "diffusion"
-      - "downscaling"
-      - "2km"
-
+      - diffusion
+      - downscaling
+      - 2km
   - id: nguyen2025_indiaweatherbench
     domain:
-      scope: "regional benchmark"
-      region: "Indian subcontinent"
-      resolution: "high-resolution regional reanalysis-based (see paper for exact grids)"
+      scope: regional benchmark
+      region: Indian subcontinent
+      resolution: high-resolution regional reanalysis-based (see paper for exact grids)
       temporal_resolution_hr: 6
     architecture:
-      family: "Multiple baselines"
-      notes: "Baselines spanning UNets, Transformers, and graph-based networks; supports boundary conditioning strategies"
+      family: Multiple baselines
+      notes: Baselines spanning UNets, Transformers, and graph-based networks; supports boundary conditioning strategies
     outputs:
-      probabilistic: "both (metrics + baselines include deterministic and probabilistic)"
-      ensembles: "some baselines"
+      probabilistic: both (metrics + baselines include deterministic and probabilistic)
+      ensembles: some baselines
     tags:
-      - "benchmark"
-      - "regional"
-      - "baselines"
-
-  - id: pathak2026_stormscope
-    domain:
-      scope: "regional nowcasting (CONUS)"
-      output_resolution_km: 6
-      temporal_resolution_hr: 0.167
-    architecture:
-      family: "Transformer diffusion (generative)"
-      notes: "Multi-modal satellite + radar diffusion model for storm-scale nowcasting"
-    outputs:
-      probabilistic: true
-      ensembles: true
-    tags:
-      - "diffusion"
-      - "nowcasting"
-      - "storm-scale"
-
+      - benchmark
+      - regional
+      - baselines
   - id: zambon2025_peakweather
     domain:
-      scope: "station network (Switzerland)"
+      scope: station network (Switzerland)
       temporal_resolution_hr: 0.167
     architecture:
-      family: "Dataset"
-      notes: "10-minute MeteoSwiss station observations with NWP baseline ensemble"
+      family: Dataset
+      notes: 10-minute MeteoSwiss station observations with NWP baseline ensemble
     outputs:
       probabilistic: true
       ensembles: true
     tags:
-      - "dataset"
-      - "stations"
-      - "switzerland"
+      - dataset
+      - stations
+      - switzerland
+  - id: pathak2026_stormscope
+    domain:
+      scope: regional nowcasting (CONUS)
+      output_resolution_km: 6
+      temporal_resolution_hr: 0.167
+      nominal_resolution_km: 6
+    architecture:
+      family: Transformer diffusion (generative)
+      notes: Multi-modal satellite + radar diffusion model for storm-scale nowcasting
+    outputs:
+      probabilistic: true
+      ensembles: true
+    tags:
+      - diffusion
+      - nowcasting
+      - storm-scale

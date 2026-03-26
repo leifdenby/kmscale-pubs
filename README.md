@@ -43,6 +43,33 @@ npm run build
 npm run preview
 ```
 
+## Local source-file API
+
+The local Vite server exposes a narrow API for reading and writing the source
+database files. This is only available when running `npm run dev` or
+`npm run preview`; it does not exist on GitHub Pages.
+
+Allowed targets:
+
+- `km_forecasting_models`
+- `km_downscaling_and_generative`
+- `global_drivers_priors`
+- `references`
+
+Read a source file:
+
+```bash
+curl "http://localhost:5173/api/source?target=references"
+```
+
+Write a source file:
+
+```bash
+curl -X POST "http://localhost:5173/api/source?target=references" \
+  -H "Content-Type: application/json" \
+  -d '{"content":"...full file contents..."}'
+```
+
 ## Render check (headless)
 
 This script builds the site, launches the preview server, opens the page in a

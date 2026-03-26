@@ -1,114 +1,105 @@
-# global_drivers_priors.yaml
-# Global ML models used as km-scale drivers/priors/boundaries (not necessarily km output themselves)
-
 papers:
   - id: han2024_fengwu_ghr
     domain:
-      scope: "global"
+      scope: global
       nominal_resolution_km: 9
       nominal_resolution_deg: 0.09
       temporal_resolution_hr: 6
     architecture:
-      family: "Deep neural forecasting model (attention-based / transformer-like)"
-      notes: "High-resolution global forecasting via transfer learning from pretrained low-res model (see paper for exact blocks)"
+      family: Deep neural forecasting model (attention-based / transformer-like)
+      notes: High-resolution global forecasting via transfer learning from pretrained low-res model (see paper for exact blocks)
     outputs:
       probabilistic: false
       ensembles: false
     tags:
-      - "global"
-      - "sub-10km"
-      - "transfer learning"
-
+      - global
+      - sub-10km
+      - transfer learning
   - id: zhong2024_fuxi2
     domain:
-      scope: "global"
-      nominal_resolution: "coarse-global (see paper)"
+      scope: global
+      nominal_resolution: coarse-global (see paper)
       temporal_resolution_hr: 1
     architecture:
-      family: "Transformer-style forecasting model"
-      notes: "Designed to increase temporal resolution and variable coverage for practical applications"
+      family: Transformer-style forecasting model
+      notes: Designed to increase temporal resolution and variable coverage for practical applications
     outputs:
       probabilistic: false
       ensembles: false
     tags:
-      - "global"
-      - "hourly"
-      - "transformer"
-
+      - global
+      - hourly
+      - transformer
   - id: zhuang2025_ladcast
     domain:
-      scope: "global (latent space)"
-      training_data: "ERA5 (per paper)"
+      scope: global (latent space)
+      training_data: ERA5 (per paper)
       temporal_resolution_hr: 6
     architecture:
-      family: "Autoencoder + Transformer diffusion (latent diffusion)"
-      notes: "Dual-stream attention; spherical/geometric positional encoding (GeoRoPE); probabilistic ensembles"
+      family: Autoencoder + Transformer diffusion (latent diffusion)
+      notes: Dual-stream attention; spherical/geometric positional encoding (GeoRoPE); probabilistic ensembles
     outputs:
       probabilistic: true
       ensembles: true
     tags:
-      - "latent diffusion"
-      - "ensembles"
-      - "global"
-
+      - latent diffusion
+      - ensembles
+      - global
   - id: lam2022_graphcast
     domain:
-      scope: "global"
+      scope: global
       nominal_resolution_deg: 0.25
-      lead_time: "up to 10 days (per paper)"
+      lead_time: up to 10 days (per paper)
       temporal_resolution_hr: 6
     architecture:
-      family: "Graph Neural Network (GNN)"
-      notes: "Message passing on global grid/mesh; autoregressive rollouts"
+      family: Graph Neural Network (GNN)
+      notes: Message passing on global grid/mesh; autoregressive rollouts
     outputs:
       probabilistic: false
       ensembles: false
     tags:
-      - "GNN"
-      - "global baseline"
-
+      - GNN
+      - global baseline
   - id: bi2023_pangu
     domain:
-      scope: "global"
-      nominal_resolution: "coarse-global (paper describes)"
+      scope: global
+      nominal_resolution: coarse-global (paper describes)
       temporal_resolution_hr: 1
     architecture:
-      family: "3D neural networks (Vision Transformer-like with Earth-specific priors)"
-      notes: "3D neural architecture for medium-range global forecasting (Pangu-Weather)"
+      family: 3D neural networks (Vision Transformer-like with Earth-specific priors)
+      notes: 3D neural architecture for medium-range global forecasting (Pangu-Weather)
     outputs:
       probabilistic: false
       ensembles: false
     tags:
-      - "global baseline"
-      - "3D networks"
-
+      - global baseline
+      - 3D networks
   - id: kochkov2024_neuralgcm
     domain:
-      scope: "global"
-      focus: "hybrid ML + differentiable solver"
+      scope: global
+      focus: hybrid ML + differentiable solver
       temporal_resolution_hr: 6
     architecture:
-      family: "Hybrid physics + ML"
-      notes: "Differentiable atmospheric dynamics core + learned components; aims at stability across weather/climate regimes"
+      family: Hybrid physics + ML
+      notes: Differentiable atmospheric dynamics core + learned components; aims at stability across weather/climate regimes
     outputs:
-      probabilistic: "supports ensembles (per paper)"
+      probabilistic: supports ensembles (per paper)
       ensembles: true
     tags:
-      - "hybrid"
-      - "physics-guided"
-
+      - hybrid
+      - physics-guided
   - id: allen2025_aardvark_nature
     domain:
-      scope: "global end-to-end pipeline"
-      inputs: "observations (end-to-end)"
-      outputs: "global gridded + local station forecasts"
+      scope: global end-to-end pipeline
+      inputs: observations (end-to-end)
+      outputs: global gridded + local station forecasts
       temporal_resolution_hr: 24
     architecture:
-      family: "Neural process / end-to-end model"
-      notes: "Single model replaces major parts of the NWP pipeline; trained end-to-end on observations → forecasts"
+      family: Neural process / end-to-end model
+      notes: Single model replaces major parts of the NWP pipeline; trained end-to-end on observations → forecasts
     outputs:
-      probabilistic: "varies by configuration (see paper)"
-      ensembles: "not the main focus"
+      probabilistic: varies by configuration (see paper)
+      ensembles: not the main focus
     tags:
-      - "end-to-end"
-      - "observations-to-forecast"
+      - end-to-end
+      - observations-to-forecast
